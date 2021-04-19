@@ -32,7 +32,7 @@ class RegressionAgent:
             if len(mses) > 1:
                 if mse > mses[-2]:
                     print("MSE is bigger than previous at epoch", epoch)
-                    #print("Error DF:\n", self.errorDf)
+                    print("Error DF:\n", self.errorDf)
                     #self._plotCategories(self.x, self.y)
                     #self._plotMSEs(mses)
                     return xs[-2], ys[-2]
