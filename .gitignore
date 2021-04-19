@@ -5,4 +5,5 @@ venv/
 categorical/mapping2d/__pycache__/
 categorical/relationships/__pycache__/
 categorical/assignment/__pycache__/
+categorical/paterns/__pycache__/
 categorical/__pycache__/

@@ -1,3 +1,4 @@
+from categorical.patterns.PatternGenerator import *
 from categorical.CategoriesInputHandler import *
 from categorical.relationships.RelationshipController import *
 from categorical.mapping2d.Mapping2dController import *
@@ -5,15 +6,17 @@ from categorical.assignment.AreaAssignmentController import *
 
 class CategoricalMapper:
 
-    def __init__(self, gridWidth, gridHeight, patternWidth, patternHeight):
+    def __init__(self, gridWidth, gridHeight):
 
         self.gridWidth = gridWidth
         self.gridHeight = gridHeight
 
-        self.patternWidth = patternWidth
-        self.patternHeight = patternHeight
-
     def map(self):
+
+        patternGenerator = PatternGenerator()
+        self.patterns = patternGenerator.generate()
+        self.patternWidth, self.patternHeight = patternGenerator.getPatternDimensions()
+
         self.categories = CategoricalInputHandler().input()
         print("categories:\n", self.categories)
 
