@@ -1,4 +1,4 @@
-from categorical.assignment.ScalingAgent import *
+from categorical.areaassignment.ScalingAgent import *
 from enum import *
 
 class AssignmentOptions(Enum):

@@ -2,14 +2,17 @@ from categorical.patterns.PatternGenerator import *
 from categorical.CategoriesInputHandler import *
 from categorical.relationships.RelationshipController import *
 from categorical.mapping2d.Mapping2dController import *
-from categorical.assignment.AreaAssignmentController import *
+from categorical.areaassignment.AreaAssignmentController import *
 
 class CategoricalMapper:
 
-    def __init__(self, gridWidth, gridHeight):
+    def __init__(self, gridWidth, gridHeight, minValue, maxValue):
 
         self.gridWidth = gridWidth
         self.gridHeight = gridHeight
+
+        self.minValue = minValue
+        self.maxValue = maxValue
 
     def map(self):
 

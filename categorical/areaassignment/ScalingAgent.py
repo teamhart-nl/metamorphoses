@@ -17,6 +17,8 @@ class ScalingAgent:
 
     def assign(self):
         self._movePointsToGridCells()
+
+        # TODO: return a dict {category_name: coords}
         return self.gridX, self.gridY
 
     def _movePointsToGridCells(self):
