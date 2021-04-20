@@ -8,16 +8,16 @@ class Mapping2dOptions(Enum):
 
 class Mapping2dController:
 
-    def __init__(self, categories, relationships):
+    def __init__(self, categories, relationships, agent=Mapping2dOptions.RegressionAgent):
         self.categories = categories
         self.relationships = relationships
 
-        # TODO: make it possible to choose the graph option
-        self.mapping2dOption = Mapping2dOptions.RegressionAgent
+        self.mapping2dOption = agent
 
     def getMapping(self):
         if self.mapping2dOption == Mapping2dOptions.RegressionAgent:
             return RegressionAgent(categories=self.categories, relationships=self.relationships).run()
-        # TODO: put GraphAgent here
-        print("GraphAgent not implemented yet")
-        return RegressionAgent(categories=self.categories, relationships=self.relationships).run()
+        elif self.mapping2dOption == Mapping2dOptions.GraphAgent:
+            return GraphAgent(categories=self.categories, relationships=self.relationships).run()
+        else:
+            raise ValueError("Unrecognized mapping agent")

@@ -29,7 +29,7 @@ class CategoricalMapper:
         [print(self.relationships[i]) for i in range(len(self.relationships))]
 
         self.mapX, self.mapY = Mapping2dController(categories=self.categories,
-                                                   relationships=self.relationships).getMapping()
+                                                   relationships=self.relationships, agent=Mapping2dOptions.GraphAgent).getMapping()
         self.gridCoords = AreaAssignmentController(
                 categories=self.categories,
                 gridWidth=self.gridWidth,
