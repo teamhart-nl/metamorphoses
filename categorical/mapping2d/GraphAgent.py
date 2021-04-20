@@ -2,6 +2,10 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+
+from itertools import combinations
+from math import sqrt
 
 
 class GraphAgent:
@@ -11,6 +15,9 @@ class GraphAgent:
         self.nrCategories = len(categories)
         self.relationships = relationships
         self.idealDistances = self._computeIdealDistance()
+        self.distanceLookUp = self._getIdealDistanceLookUp()
+
+        print(self.distanceLookUp)
 
         if nx.__version__ != '1.11':
             print("please instal networkx version 1.11")
@@ -28,11 +35,16 @@ class GraphAgent:
 
         x = []
         y = []
+        print("Point Positions")
         for (name, point) in loc.items():
             print(name, point)
             x.append(point[0])
             y.append(point[1])
         
+        print("Result Table")
+        errorDF = self._createErrorTable(loc)
+        print(errorDF)
+
         return (x, y)
 
     def _computeIdealDistance(self):
@@ -52,6 +64,37 @@ class GraphAgent:
             distance_to = {}
             for j in range(len(self.idealDistances[i])):
                 distance_to[self.categories[j]] = self.idealDistances[i][j]
-            lookup[self.categories[i]] = distance_to
+            lookup[from_node] = distance_to
         
         return lookup
+
+    def _createErrorTable(self, loc):
+        """
+        Creates a sorted table of pairwise distance different between current and ideal positions
+        """
+        errorDf = pd.DataFrame (columns=[
+                "ideal-distance",
+                "curr-distance",
+                "error",
+                "involved-categories"
+        ])
+
+        for c1, c2 in combinations(self.categories, r=2):
+            p1x, p1y = loc[c1]
+            p2x, p2y = loc[c2]
+
+            idealDistance = self.distanceLookUp[c1][c2]
+            currDistance = sqrt((p1x - p2x) ** 2 + (p1y - p2y) ** 2)
+            distanceError = (currDistance - idealDistance)**2
+
+            errorDf = errorDf.append (
+                    {
+                            "ideal-distance"     : idealDistance,
+                            "curr-distance"      : currDistance,
+                            "error"              : distanceError,
+                            "involved-categories": c1 + "," + c2
+                    },
+                    ignore_index=True)
+
+        errorDf = errorDf.sort_values(by=["error"], ascending=False).reset_index(drop=True)
+        return errorDf
