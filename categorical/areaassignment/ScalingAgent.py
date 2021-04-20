@@ -53,7 +53,7 @@ class ScalingAgent:
         isHorizontalGrid = True if (self.workingGridWidth >= self.workingGridHeight) else False
         isHorizontalPlot = True if (pointsWidth >= pointsHeight) else False
 
-        if (isHorizontalGrid and not isHorizontalPlot) or (not isHorizontalGrid and isHorizontalPlot):
+        if isHorizontalGrid != isHorizontalPlot:
             self.x, self.y = self.__rotatePoints(self.x, self.y)
             pointsWidth = abs(max(self.x) - min(self.x))
             pointsHeight = abs(max(self.y) - min(self.y))
