@@ -8,11 +8,12 @@ class DataType(Enum):
 if __name__ == '__main__':
 
     # TODO: make it possible to just enter this stuff
-    gridWidth = 5
-    gridHeight = 5
+    gridWidth = 6
+    gridHeight = 4
 
+    # TODO:: make it possible to have different ranges for different categories (within categorical input prolly)
     minValue = 0
-    maxValue = 10
+    maxValue = 5
 
     # TODO: make a user choose if they want to do numerical or categorical
     dataType = DataType.Categorical

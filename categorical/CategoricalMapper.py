@@ -40,9 +40,7 @@ class CategoricalMapper:
                 rawY=self.mapY
         ).assign()
 
-        print(self.gridCoords)
-
-        PatternAssignmentController(
+        self.objectPatterns = PatternAssignmentController(
                 allPatterns=self.patterns,
                 patternWidth=self.patternWidth,
                 patternHeight=self.patternHeight,

@@ -1,11 +1,12 @@
 from math import *
 from itertools import product
 import copy
+from random import sample
 
 class PatternAssignmentController:
 
     def __init__(self, allPatterns, patternWidth, patternHeight, gridCoords, minValue, maxValue):
-        self.allPatterns = allPatterns
+        self.allPatterns = sample(allPatterns, len(allPatterns)) # TODO: come up with an actual ordering rather than shuffling
         self.patternWidth = patternWidth
         self.patternHeight = patternHeight
         self.gridCoords = gridCoords
@@ -15,8 +16,15 @@ class PatternAssignmentController:
         self._getAvailableCells()
         self._getAvailablePatterns()
         self._printAvailability()
+        self._assignObjectsToPatterns()
 
-        # TODO: actually assign objects to patterns if possible, otherwise give recommendations
+        print("\nobject patterns:")
+        for c, ob in self.objectPatterns.items():
+            print("Category", c)
+            for object, pattern in ob.items():
+                print("Pattern for object {} is {}".format(object, pattern))
+
+        return self.objectPatterns
 
     def _getAvailableCells(self):
         """
@@ -108,8 +116,38 @@ class PatternAssignmentController:
                     len(self.allPatterns),
                     self.nrObjects
             ))
-            for p in patterns:
-                print(p)
-            print("\n")
+            #for p in patterns:
+            #    print(p)
+            #print("\n")
+
+    def _assignObjectsToPatterns(self):
+
+        self.objectPatterns = {} # category : objectID  : pattern
+
+        for c, patterns in self.categoryAvailablePatterns.items():
+            if len(patterns) < self.nrObjects:
+                raise AssertionError ("Not enough patterns for the required number of objects (assuming the number of objects is the same for all categories and only spatial patterns)")
+
+            self.objectPatterns[c] = {}
+
+            for objectID in range(self.nrObjects):
+                rawPattern = patterns[objectID]
+                involvedCoords = self.__getInvolvedCoordsFromPatterns(c, rawPattern)
+
+                self.objectPatterns[c][objectID] = involvedCoords
+
+    def __getInvolvedCoordsFromPatterns(self, category, pattern):
+        origin = self.originCoords[category]
+        involvedCoords = []
+
+        for i in range(self.patternWidth):
+            for j in range(self.patternHeight):
+
+                if pattern[j][i] == 1:
+                     involvedCoords.append((origin[0] + i, origin[1] + j))
+
+        return involvedCoords
+
+
 
 

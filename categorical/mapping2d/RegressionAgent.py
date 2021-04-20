@@ -12,7 +12,7 @@ class RegressionAgent:
         self.relationships = relationships
 
         self.learningRate = 0.05
-        self.maxEpochs = 20
+        self.maxEpochs = 200
 
     def run(self):
         self.idealDistances = self._computeIdealDistance()
