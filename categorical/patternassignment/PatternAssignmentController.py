@@ -63,9 +63,7 @@ class PatternAssignmentController:
 
     def __handlePattern(self, pattern, c, coords):
         if len(self.categoryAvailablePatterns[c]) == 0:
-            print("No available grid cells for category", c)
-            # TODO: raise error if no available cells for a category
-            return
+            raise AssertionError("No available grid cells for a category")
 
         for i in range(self.patternWidth):
             for j in range(self.patternHeight):

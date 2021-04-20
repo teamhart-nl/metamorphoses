@@ -34,9 +34,10 @@ class PatternGenerator:
         self.patternWidth = 3
         self.patternHeight = 2
 
-        # TODO: raise error if w−(wp−1) <= 0 OR h−(hp−1) <= 0
         if (self.gridWidth - (self.patternWidth-1) <= 0) or (self.gridHeight - (self.patternHeight-1) <= 0):
-            print("The pattern is too big for the grid")
+            raise AssertionError("The pattern is too big for the grid")
+
+        #assert self.gridWidth - (self.patternWidth-1) <= 0, "The pattern width is too big for this grid"
 
 
 

@@ -19,9 +19,7 @@ class ScalingAgent:
         self._movePointsToGridCells()
 
         if len(self.dictCoords.items()) != len(self.categories):
-            # TODO: raise error if some categories were assigned to the same cell
-            print("Some categories overlap on the grid")
-            return
+            raise AssertionError("Some categories overlap on the grid")
 
         return self.dictCoords
 

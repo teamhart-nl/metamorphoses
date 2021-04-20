@@ -21,7 +21,7 @@ class CategoricalInputHandler:
         return self._automaticCategories()
 
     def _automaticCategories(self):
-        return ["A", "B", "C", "D"]
+        return ["A", "B", "C"]
 
 
 if __name__ == '__main__':
