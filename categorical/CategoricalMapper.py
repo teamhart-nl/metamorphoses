@@ -3,6 +3,7 @@ from categorical.CategoriesInputHandler import *
 from categorical.relationships.RelationshipController import *
 from categorical.mapping2d.Mapping2dController import *
 from categorical.areaassignment.AreaAssignmentController import *
+from categorical.patternassignment.PatternAssignmentController import *
 
 class CategoricalMapper:
 
@@ -16,7 +17,7 @@ class CategoricalMapper:
 
     def map(self):
 
-        patternGenerator = PatternGenerator()
+        patternGenerator = PatternGenerator(gridWidth=self.gridWidth, gridHeight=self.gridHeight)
         self.patterns = patternGenerator.generate()
         self.patternWidth, self.patternHeight = patternGenerator.getPatternDimensions()
 
@@ -29,7 +30,7 @@ class CategoricalMapper:
 
         self.mapX, self.mapY = Mapping2dController(categories=self.categories,
                                                    relationships=self.relationships).getMapping()
-        self.gridX, self.gridY = AreaAssignmentController(
+        self.gridCoords = AreaAssignmentController(
                 categories=self.categories,
                 gridWidth=self.gridWidth,
                 gridHeight=self.gridHeight,
@@ -39,7 +40,16 @@ class CategoricalMapper:
                 rawY=self.mapY
         ).assign()
 
-        # TODO: allocate patterns
+        print(self.gridCoords)
+
+        PatternAssignmentController(
+                allPatterns=self.patterns,
+                patternWidth=self.patternWidth,
+                patternHeight=self.patternHeight,
+                gridCoords=self.gridCoords,
+                minValue=self.minValue,
+                maxValue=self.maxValue
+        ).assign()
 
 
 

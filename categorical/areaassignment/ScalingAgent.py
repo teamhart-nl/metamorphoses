@@ -18,8 +18,12 @@ class ScalingAgent:
     def assign(self):
         self._movePointsToGridCells()
 
-        # TODO: return a dict {category_name: coords}
-        return self.gridX, self.gridY
+        if len(self.dictCoords.items()) != len(self.categories):
+            # TODO: raise error if some categories were assigned to the same cell
+            print("Some categories overlap on the grid")
+            return
+
+        return self.dictCoords
 
     def _movePointsToGridCells(self):
         """
@@ -29,6 +33,11 @@ class ScalingAgent:
 
         self.gridX = [round(i) + 1 for i in self.x]
         self.gridY = [round(j) + 1 for j in self.y]
+
+        self.coords = [(self.gridY[i], self.gridX[i]) for i in range (len (self.x))]
+        self.dictCoords = {}
+        for i in range (len (self.categories)):
+            self.dictCoords[self.coords[i]] = self.categories[i]
 
         self.__plotGrid()
 
@@ -87,14 +96,10 @@ class ScalingAgent:
         return scaledX, scaledY
 
     def __plotGrid(self):
-        coords = [(self.gridY[i], self.gridX[i]) for i in range (len(self.x))]
-        heatmap = [[1 if ((j, i) in coords) else 0 for i in range (1, self.gridWidth + 1)] for j in
+        heatmap = [[1 if ((j, i) in self.coords) else 0 for i in range (1, self.gridWidth + 1)] for j in
                    range (1, self.gridHeight + 1)]
-        dictCoords = {}
-        for i in range (len(self.categories)):
-            dictCoords[coords[i]] = self.categories[i]
         annot = np.asarray (
-                [[dictCoords[(j, i)] if ((j, i) in dictCoords) else "" for i in range (1, self.gridWidth + 1)] for j in
+                [[self.dictCoords[(j, i)] if ((j, i) in self.dictCoords) else "" for i in range (1, self.gridWidth + 1)] for j in
                  range (1, self.gridHeight + 1)])
         # So Sweet you are <3
         fig, ax = plt.subplots(figsize=(self.gridWidth, self.gridHeight))
